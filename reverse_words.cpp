@@ -4,31 +4,29 @@
 using namespace std;
 
 void _reverse(string *s, int l, int r){
-    if (l >= r){
-        return;
-    }
-    float mid = (l + r) * 0.5;
-    int idx = 0;
-    while (l + idx < mid){
-        swap(s->at(l + idx), s->at(r - idx));
-        idx ++;
+    // if (l >= r){
+    //     return;
+    // }
+    while (l < r){
+        swap(s->at(l), s->at(r));
+        l ++;
+        r --;
     }
     return;
 }
 
 void reverse_word_order(string* s) {
-    int r = s->length() - 1;
+    _reverse(s, 0, s->length() - 1);
     int l = 0;
-    _reverse(s, l, r);
-    int idx = 0;
+    int r = 0;
     for (const char &c:*s){
         if (c == ' '){
-            _reverse(s, l, idx - 1);
-            l = idx + 1;
+            _reverse(s, l, r - 1);
+            l = r + 1;
         }
-        idx ++;
+        r ++;
     }
-    _reverse(s, l, r);
+    _reverse(s, l, r - 1);
     return;
 }
 
