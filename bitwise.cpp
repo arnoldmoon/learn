@@ -9,31 +9,29 @@ using namespace std;
                       : numeric_limits<t>::digits
 
 template <class t>
-bitset<bit_length(t)> comp(t input){
+bitset<bit_length(t)> complement(t input){
     return ~bitset<bit_length(t)>(input);
 }
 
 template <class t>
 short parity(t input){
-    const short l = bit_length(t);
-    bitset<l> bs(input);
-    int i = l;
+    int i = bit_length(t);
     while (i > 1){
         i *= 0.5;
-        bs ^= (bs >> i);
+        input ^= (input >> i);
     }
-    return bs[0];
+    return input & 1;
 }
 
 int main(){
     long i;
     i = 5;
     cout << "input      : " << bitset <bit_length(long)>(i) << endl;
-    cout << "complement : " << comp(i) << endl;
+    cout << "complement : " << complement(i) << endl;
     cout << "parity     : " << parity(i) << endl;
     i = 4;
     cout << "input      : " << bitset <bit_length(long)>(i) << endl;
-    cout << "complement : " << comp(i) << endl;
+    cout << "complement : " << complement(i) << endl;
     cout << "parity     : " << parity(i) << endl;
     return 1;
 }
