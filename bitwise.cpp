@@ -29,11 +29,11 @@ int main(){
     long i;
     i = 5;
     cout << "input      : " << bitset <bit_length(long)>(i) << endl;
-    cout << "compliment : " << comp(i) << endl;
+    cout << "complement : " << comp(i) << endl;
     cout << "parity     : " << parity(i) << endl;
     i = 4;
     cout << "input      : " << bitset <bit_length(long)>(i) << endl;
-    cout << "compliment : " << comp(i) << endl;
+    cout << "complement : " << comp(i) << endl;
     cout << "parity     : " << parity(i) << endl;
     return 1;
 }
