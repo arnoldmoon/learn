@@ -33,5 +33,5 @@ int main(){
     cout << "input      : " << bitset <bit_length(long)>(i) << endl;
     cout << "complement : " << complement(i) << endl;
     cout << "parity     : " << parity(i) << endl;
-    return 1;
+    return 0;
 }

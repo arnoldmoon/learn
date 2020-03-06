@@ -36,5 +36,5 @@ int main() {
     cout << input << endl;
     reverse_word_order(&input);
     cout << input << endl;
-    return 1;
+    return 0;
 }
