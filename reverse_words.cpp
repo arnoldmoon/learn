@@ -4,9 +4,6 @@
 using namespace std;
 
 void _reverse(string *s, int l, int r){
-    // if (l >= r){
-    //     return;
-    // }
     while (l < r){
         swap(s->at(l), s->at(r));
         l ++;
