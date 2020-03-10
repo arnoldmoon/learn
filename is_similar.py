@@ -176,7 +176,7 @@ class SComp:
     def matching_components(x, y):
         '''
         compare two words using how many times each character appears
-        among the two input words. 
+        among the two input words.
         return value will be normalized between 0 - 1,
         larger value means more similarity between two input words.
         @usage : matching_components(x:str, y:str) -> float
@@ -206,14 +206,14 @@ class SComp:
 
 class Validation:
     '''
-    test custom methods against established algorithms.
+    class for validating custom methods against established algorithms.
     '''
     CHARS = string.ascii_letters + string.digits
     MIN_LENGTH = 3
     MAX_LENGTH = 10
 
     @staticmethod
-    def randomString(min_length=None, max_length=None, seed=None):
+    def random_string(min_length=None, max_length=None, seed=None):
         if seed is None:
             seed = random.random()
         random.seed(seed)
@@ -225,6 +225,43 @@ class Validation:
             random.seed(i + seed)
             result += random.choice(Validation.CHARS)
         return result
+
+    @staticmethod
+    def validate(func, v_func, num_samples=50, seed=None):
+        def match(a, b, i, num_samples, rev=False):
+            match_samples = int(num_samples * i)
+            if not rev:
+                l = 0
+                r = match_samples
+            else:
+                l = num_samples - match_samples
+                r = num_samples
+            num_match = len(set(a[l:r]).intersection(set(b[l:r])))
+            return float(num_match) / match_samples
+
+        if seed is not None:
+            random.seed(seed + 0.1)
+            seed_a = random.random()
+            random.seed(seed + 0.2)
+            seed_b = random.random()
+        else:
+            seed_a = random.random()
+            seed_b = random.random()
+        x = Validation.random_string(seed=seed_a)
+        word_pool = [Validation.random_string(seed=i+seed_b)
+                     for i in range(num_samples)]
+        v_result = [v_func(x, y) for y in word_pool]
+        v_idx = sorted(range(num_samples), key=lambda X:v_result[X])
+        f_result = [func(x, y) for y in word_pool]
+        f_idx = sorted(range(num_samples), key=lambda X:f_result[X])
+        print('{} vs {}'.format(func.__name__, v_func.__name__))
+        print('{:.2%} match for top 25%'
+            .format(match(v_idx, f_idx, 0.25, num_samples)))
+        print('{:.2%} match for top 50%'
+            .format(match(v_idx, f_idx, 0.5, num_samples)))
+        print('{:.2%} match for bottom 25%'
+            .format(match(v_idx, f_idx, 0.25, num_samples, rev=True)))
+        print()
 
     @staticmethod
     def l_dist(x, y):
@@ -296,43 +333,6 @@ class Validation:
             return 0
         t = int(t)
         return (m / len(x) + m / len(y) + (m - t) / m) / 3
-
-    @staticmethod
-    def validate(func, v_func, num_samples=50, seed=None):
-        def match(a, b, i, num_samples, rev=False):
-            match_samples = int(num_samples * i)
-            if not rev:
-                l = 0
-                r = match_samples
-            else:
-                l = num_samples - match_samples
-                r = num_samples
-            num_match = len(set(a[l:r]).intersection(set(b[l:r])))
-            return float(num_match) / match_samples
-
-        if seed is not None:
-            random.seed(seed + 0.1)
-            seed_a = random.random()
-            random.seed(seed + 0.2)
-            seed_b = random.random()
-        else:
-            seed_a = random.random()
-            seed_b = random.random()
-        x = Validation.randomString(seed=seed_a)
-        word_pool = [Validation.randomString(seed=i+seed_b)
-                     for i in range(num_samples)]
-        v_result = [v_func(x, y) for y in word_pool]
-        v_idx = sorted(range(num_samples), key=lambda X:v_result[X])
-        f_result = [func(x, y) for y in word_pool]
-        f_idx = sorted(range(num_samples), key=lambda X:f_result[X])
-        print('{} vs {}'.format(func.__name__, v_func.__name__))
-        print('{:.2%} match for top 25%'
-            .format(match(v_idx, f_idx, 0.25, num_samples)))
-        print('{:.2%} match for top 50%'
-            .format(match(v_idx, f_idx, 0.5, num_samples)))
-        print('{:.2%} match for bottom 25%'
-            .format(match(v_idx, f_idx, 0.25, num_samples, rev=True)))
-        print()
 
 
 seed = random.random()
