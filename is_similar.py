@@ -236,7 +236,9 @@ class Validation:
             else:
                 l = num_samples - match_samples
                 r = num_samples
-            num_match = len(set(a[l:r]).intersection(set(b[l:r])))
+            sample_a = set(a[l:r])
+            sample_b = set(b[l:r])
+            num_match = len(sample_a.intersection(sample_b))
             return float(num_match) / match_samples
 
         if seed is not None:
