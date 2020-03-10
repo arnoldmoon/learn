@@ -54,6 +54,13 @@ class SComp:
     @staticmethod
     @Util.compare_optimizer
     def length(x, y):
+        '''
+        compare two words using word length.
+        return value will be normalized between 0 - 1,
+        larger value means more similarity between two input words.
+        @usage : length(x:str, y:str) -> float
+        @return: float normalized proximity.
+        '''
         x_len = len(x)
         y_len = len(y)
         diff = abs(x_len - y_len)
@@ -63,6 +70,14 @@ class SComp:
     @staticmethod
     @Util.compare_optimizer
     def matching_subsequence(x, y):
+        '''
+        compare two words using common characters with matching order.
+        ie "abcde" and "abecd" has four common characters,
+        return value will be normalized between 0 - 1,
+        larger value means more similarity between two input words.
+        @usage : matching_subsequence(x:str, y:str) -> float
+        @return: float normalized proximity.
+        '''
         memo={}
         len_x = len(x)
         len_y = len(y)
@@ -88,6 +103,13 @@ class SComp:
     @staticmethod
     @Util.compare_optimizer
     def matching_substring(x, y):
+        '''
+        compare two words using longest matching substring.
+        return value will be normalized between 0 - 1,
+        larger value means more similarity between two input words.
+        @usage : matching_substring(x:str, y:str) -> float
+        @return: float normalized proximity.
+        '''
         def helper(_x, _y):
             len_x = len(_x)
             len_y = len(_y)
@@ -118,6 +140,14 @@ class SComp:
     @staticmethod
     @Util.compare_optimizer
     def moon_typo_dist(x, y, max_dist=1.4142):
+        '''
+        compare two words using physical key position, further
+        the non-matching character on a keyboard, more penalty.
+        return value will be normalized between 0 - 1,
+        larger value means more similarity between two input words.
+        @usage : moon_typo_dist(x:str, y:str, max_dist=float) -> float
+        @return: float normalized proximity.
+        '''
         memo = {}
         len_x = len(x)
         len_y = len(y)
@@ -144,6 +174,14 @@ class SComp:
     @staticmethod
     @Util.compare_optimizer
     def matching_components(x, y):
+        '''
+        compare two words using how many times each character appears
+        among the two input words. 
+        return value will be normalized between 0 - 1,
+        larger value means more similarity between two input words.
+        @usage : matching_components(x:str, y:str) -> float
+        @return: float normalized proximity.
+        '''
         all_compo = dict((c, 0) for c in set(x + y))
 
         for c in x:
