@@ -91,9 +91,9 @@ class SComp:
                 memo[(l_x, l_y)] = 0
                 return 0
 
-            result = max(helper(_x, _y, l_x+1, l_y),
-                         helper(_x, _y, l_x, l_y+1),
-                         helper(_x, _y, l_x+1, l_y+1)
+            result = max(helper(_x, _y, l_x=l_x+1, l_y=l_y),
+                         helper(_x, _y, l_x=l_x, l_y=l_y+1),
+                         helper(_x, _y, l_x=l_x+1, l_y=l_y+1)
                          + (1 if _x[l_x] == _y[l_y] else 0))
             memo[(l_x, l_y)] = result
             return result
@@ -160,9 +160,9 @@ class SComp:
             if l_x >= len_x or l_y >= len_y:
                 result = abs((len_x - l_x) - (len_y - l_y)) * max_dist
             else:
-                result = min(helper(_x, _y, l_x+1, l_y) + max_dist,
-                             helper(_x, _y, l_x, l_y+1) + max_dist,
-                             helper(_x, _y, l_x+1, l_y+1)\
+                result = min(helper(_x, _y, l_x=l_x+1, l_y=l_y) + max_dist,
+                             helper(_x, _y, l_x=l_x, l_y=l_y+1) + max_dist,
+                             helper(_x, _y, l_x=l_x+1, l_y=l_y+1)\
                              + min(Keyboard.dist(_x[l_x], _y[l_y]), max_dist))
 
             memo[(l_x, l_y)] = result
@@ -238,9 +238,9 @@ class Validation:
             if l_x >= len_x or l_y >= len_y:
                 result = abs((len_x - l_x) - (len_y - l_y))
             else:
-                result = min(helper(_x, _y, l_x+1, l_y) + 1,
-                             helper(_x, _y, l_x, l_y+1) + 1,
-                             helper(_x, _y, l_x+1, l_y+1)
+                result = min(helper(_x, _y, l_x=l_x+1, l_y=l_y) + 1,
+                             helper(_x, _y, l_x=l_x, l_y=l_y+1) + 1,
+                             helper(_x, _y, l_x=l_x+1, l_y=l_y+1)
                              + (0 if _x[l_x] == _y[l_y] else 1))
             memo[(l_x, l_y)] = result
             return result
