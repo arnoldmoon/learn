@@ -291,14 +291,15 @@ class Validation:
         axis = set(x).union(set(y))
         axis_len = len(axis)
         axis_idx = dict((w, idx) for idx, w in enumerate(axis))
-        vector_x = [0] * axis_len
-        vector_y = [0] * axis_len
+        vector_x = numpy.array([0] * axis_len, dtype=numpy.float)
+        vector_y = numpy.array([0] * axis_len, dtype=numpy.float)
         for i in x:
             vector_x[axis_idx[i]] += 1
         for i in y:
             vector_y[axis_idx[i]] += 1
-        return numpy.dot(vector_x, vector_y)\
-               / (numpy.linalg.norm(vector_x) * numpy.linalg.norm(vector_y))
+        vector_x /= numpy.linalg.norm(vector_x)
+        vector_y /= numpy.linalg.norm(vector_y)
+        return numpy.dot(vector_x, vector_y)
 
     @staticmethod
     def trigram(x, y):
