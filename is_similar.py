@@ -328,12 +328,12 @@ class Validation:
                 match_idx.pop(i)
         t = 0.0
         m = len(match)
+        if m == 0:
+            return 0.
         for i, j in zip(match, sorted(match)):
             if i == j:
                 continue
             t += 0.5
-        if m == 0:
-            return 0
         t = int(t)
         return (m / len(x) + m / len(y) + (m - t) / m) / 3
 
