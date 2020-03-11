@@ -72,7 +72,7 @@ class SComp:
     def matching_subsequence(x, y):
         '''
         compare two words using common characters with matching order.
-        ie "abcde" and "abecd" has four common characters,
+        ie "abcde" and "abecd" has four common matching order characters,
         return value will be normalized between 0 - 1,
         larger value means more similarity between two input words.
         @usage : matching_subsequence(x:str, y:str) -> float
