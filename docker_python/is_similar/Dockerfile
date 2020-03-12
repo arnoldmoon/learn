@@ -1,6 +1,6 @@
 FROM python:3.7-slim
 
-ARG PROG_NAME
+ARG PROG_NAME=main.py
 ENV PROG_NAME=$PROG_NAME
 
 WORKDIR /usr/src/app
