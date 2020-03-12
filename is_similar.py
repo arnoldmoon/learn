@@ -45,6 +45,16 @@ class Util:
             return result
         return wrapper
 
+    @staticmethod
+    def random_string_optimizer(func):
+        memo = {}
+        def wrapper(*args, **kwargs):
+            key = (args, frozenset(sorted(kwargs.items())))
+            result = memo.get(key)
+            if result is None or seed==None:
+                memo[key] = result = func(*args, **kwargs)
+            return result
+        return wrapper
 
 class SComp:
     '''
@@ -208,11 +218,13 @@ class Validation:
     '''
     class for validating custom methods against established algorithms.
     '''
-    CHARS = string.ascii_letters + string.digits
+    #CHARS = string.ascii_letters + string.digits
+    CHARS = ['a', 'b', 'c', 'd', 'e']
     MIN_LENGTH = 3
-    MAX_LENGTH = 10
+    MAX_LENGTH = 6
 
     @staticmethod
+    @Util.random_string_optimizer
     def random_string(min_length=None, max_length=None, seed=None):
         if seed is None:
             seed = random.random()
@@ -227,7 +239,7 @@ class Validation:
         return result
 
     @staticmethod
-    def validate(func, v_func, num_samples=50, seed=None, reverse=False):
+    def validate(func, v_func, num_samples=50, seed=None, v_is_reversed=False):
         def match(a, b, i, num_samples, rev=False):
             match_samples = int(num_samples * i)
             if not rev:
@@ -249,20 +261,35 @@ class Validation:
         else:
             seed_a = random.random()
             seed_b = random.random()
+        
         x = Validation.random_string(seed=seed_a)
         word_pool = [Validation.random_string(seed=i+seed_b)
                      for i in range(num_samples)]
+        
         v_result = [v_func(x, y) for y in word_pool]
-        v_idx = sorted(range(num_samples), key=lambda X:v_result[X])
+        v_idx = sorted(range(num_samples),
+                       key=lambda X:v_result[X],
+                       reverse=v_is_reversed)
+        
         f_result = [func(x, y) for y in word_pool]
-        f_idx = sorted(range(num_samples), key=lambda X:f_result[X])
+        f_idx = sorted(range(num_samples),
+                       key=lambda X:f_result[X],
+                       reverse=True)
+        
         print('{} vs {}'.format(func.__name__, v_func.__name__))
+        print('{}:'.format(x))
+        print('{}:{}...'.format(
+              func.__name__,
+              [word_pool[i] for i in f_idx[:3]]))
+        print('{}:{}...'.format(
+              v_func.__name__,
+              [word_pool[i] for i in v_idx[:3]]))
         print('{:.2%} match for top 25%'
-            .format(match(v_idx, f_idx, 0.25, num_samples, rev=reverse)))
+            .format(match(v_idx, f_idx, 0.25, num_samples)))
         print('{:.2%} match for top 50%'
-            .format(match(v_idx, f_idx, 0.5, num_samples, rev=reverse)))
+            .format(match(v_idx, f_idx, 0.5, num_samples)))
         print('{:.2%} match for bottom 25%'
-            .format(match(v_idx, f_idx, 0.25, num_samples, rev=not reverse)))
+            .format(match(v_idx, f_idx, 0.25, num_samples, rev=True)))
         print()
 
     @staticmethod
@@ -339,7 +366,7 @@ class Validation:
 
 
 seed = random.random()
-Validation.validate(SComp.moon_compare, Validation.l_dist, num_samples=1000, seed=seed, reverse=True)
-Validation.validate(SComp.moon_compare, Validation.cosign, num_samples=1000, seed=seed)
-Validation.validate(SComp.moon_compare, Validation.trigram, num_samples=1000, seed=seed)
-Validation.validate(SComp.moon_compare, Validation.jaro_dist, num_samples=1000, seed=seed, reverse=True)
+Validation.validate(SComp.moon_compare, Validation.l_dist, num_samples=1000, seed=seed, v_is_reversed=False)
+Validation.validate(SComp.moon_compare, Validation.cosign, num_samples=1000, seed=seed, v_is_reversed=True)
+Validation.validate(SComp.moon_compare, Validation.trigram, num_samples=1000, seed=seed, v_is_reversed=True)
+Validation.validate(SComp.moon_compare, Validation.jaro_dist, num_samples=1000, seed=seed, v_is_reversed=True)
