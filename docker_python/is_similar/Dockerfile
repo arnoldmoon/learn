@@ -1,4 +1,7 @@
-FROM python:3.7-slim
+ARG BASE=python
+ARG TAG=3.7-slim
+
+FROM ${BASE}:${TAG}
 
 ARG PROG_NAME=__main__.py
 ENV PROG_NAME=$PROG_NAME
