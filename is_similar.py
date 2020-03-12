@@ -227,7 +227,7 @@ class Validation:
         return result
 
     @staticmethod
-    def validate(func, v_func, num_samples=50, seed=None):
+    def validate(func, v_func, num_samples=50, seed=None, reverse=False):
         def match(a, b, i, num_samples, rev=False):
             match_samples = int(num_samples * i)
             if not rev:
@@ -258,11 +258,11 @@ class Validation:
         f_idx = sorted(range(num_samples), key=lambda X:f_result[X])
         print('{} vs {}'.format(func.__name__, v_func.__name__))
         print('{:.2%} match for top 25%'
-            .format(match(v_idx, f_idx, 0.25, num_samples)))
+            .format(match(v_idx, f_idx, 0.25, num_samples, rev=reverse)))
         print('{:.2%} match for top 50%'
-            .format(match(v_idx, f_idx, 0.5, num_samples)))
+            .format(match(v_idx, f_idx, 0.5, num_samples, rev=reverse)))
         print('{:.2%} match for bottom 25%'
-            .format(match(v_idx, f_idx, 0.25, num_samples, rev=True)))
+            .format(match(v_idx, f_idx, 0.25, num_samples, rev=not reverse)))
         print()
 
     @staticmethod
@@ -339,7 +339,7 @@ class Validation:
 
 
 seed = random.random()
-Validation.validate(SComp.moon_compare, Validation.l_dist, num_samples=1000, seed=seed)
+Validation.validate(SComp.moon_compare, Validation.l_dist, num_samples=1000, seed=seed, reverse=True)
 Validation.validate(SComp.moon_compare, Validation.cosign, num_samples=1000, seed=seed)
 Validation.validate(SComp.moon_compare, Validation.trigram, num_samples=1000, seed=seed)
-Validation.validate(SComp.moon_compare, Validation.jaro_dist, num_samples=1000, seed=seed)
+Validation.validate(SComp.moon_compare, Validation.jaro_dist, num_samples=1000, seed=seed, reverse=True)
