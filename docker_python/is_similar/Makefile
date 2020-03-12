@@ -1,5 +1,4 @@
-env ?= config.env
-include $(env)
+include ./config.env
 
 build:
 	docker build -t $(IMG_NAME) .
