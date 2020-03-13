@@ -72,13 +72,11 @@ class BinaryInsertionSort:
         """
         result = []
         def _helper(node):
-            l = node.l
-            if node.l is not None:
-                _helper(node.l)
+            if node is None:
+                return
+            _helper(node.l)
             result.append(node.data)
-            r = node.r
-            if node.r is not None:
-                _helper(node.r)
+            _helper(node.r)
 
         if self.head is None:
             return None
