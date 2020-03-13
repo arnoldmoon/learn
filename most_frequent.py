@@ -39,7 +39,7 @@ class Node:
         self.data = data
         self.priority = priority
         self.l = l
-        self.r = None
+        self.r = r
 
     def append(self, x, p):
         if self.data is None:
@@ -113,20 +113,12 @@ def most_frequent_n(l, n):
     return result.traverse()[:n]
 
 
-l = [5, 1, 5, 2, 7, 5, 3, 5, 8, 9, 2, 3]
-print(sorted(set(l), key = lambda X:l.count(X), reverse=True))
-
-print(most_frequent(l))
-print(most_frequent_n(l, 3))
-
-
-
-
-#bonus practice
+#additional practice
 def bubble_sort(l):
     l_len = 0 if l is None else len(l)
     if l_len < 2:
         return l
+
     while True:
         done = True
         i = 0
@@ -136,8 +128,10 @@ def bubble_sort(l):
                 done = False
                 l[i+1], l[i] = a, b
             i += 1
+
         if done:
             break
+
     return l
 
 def quick_sort(l):
@@ -200,6 +194,13 @@ def quick_sort_inplace(l):
     return l
 
 
+l = [5, 1, 5, 2, 7, 5, 3, 5, 8, 9, 2, 3]
+
 print(l)
-# print(bubble_sort(l))
-print(quick_sort_inplace(l))
+print(sorted(set(l), key = lambda X:l.count(X), reverse=True))
+
+print(most_frequent(l))
+print(most_frequent_n(l, 3))
+print(bubble_sort(list(l)))
+print(quick_sort(list(l)))
+print(quick_sort_inplace(list(l)))
