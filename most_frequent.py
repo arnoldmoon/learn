@@ -163,31 +163,31 @@ def quick_sort_inplace(l):
             return
 
         pivot_val = x[left]
-        p_idx = [left, left]
+        piv_head = left
+        piv_tail = left
         idx = left + 1
         while idx <= right:
             current = x[idx]
 
             if current == pivot_val:
-                after_pivot = p_idx[1] + 1
-                if idx > after_pivot:
-                    x[idx], x[after_pivot] = x[after_pivot], x[idx]
-                p_idx[1] += 1
+                swap_idx = piv_tail + 1
+                if idx > swap_idx:
+                    x[idx], x[swap_idx] = x[swap_idx], x[idx]
+                piv_tail += 1
                 idx += 1
                 continue
 
             if current < pivot_val:
-                after_pivot = p_idx[1] + 1
-                if idx != after_pivot:
-                    x[idx], x[after_pivot] = x[after_pivot], x[idx]
-                pivot_head = p_idx[0]
-                x[pivot_head], x[after_pivot] = x[after_pivot], x[pivot_head]
-                p_idx[0] += 1
-                p_idx[1] += 1
+                swap_idx = piv_tail + 1
+                if idx != swap_idx:
+                    x[idx], x[swap_idx] = x[swap_idx], x[idx]
+                x[piv_head], x[swap_idx] = x[swap_idx], x[piv_head]
+                piv_head += 1
+                piv_tail += 1
             idx += 1
 
-        _helper(x, left, p_idx[0]-1)
-        _helper(x, p_idx[1]+1, right)
+        _helper(x, left, piv_head-1)
+        _helper(x, piv_tail+1, right)
 
     l_len = 0 if l is None else len(l)
     if l_len < 2:
