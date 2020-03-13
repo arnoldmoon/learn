@@ -169,22 +169,25 @@ def quick_sort_inplace(l):
         while idx <= right:
             current = x[idx]
 
+            if current > pivot_val:
+                idx += 1
+                continue
+
+            swap_idx = piv_tail + 1
+            if idx != swap_idx:
+                x[idx], x[swap_idx] = x[swap_idx], x[idx]
+
             if current == pivot_val:
-                swap_idx = piv_tail + 1
-                if idx > swap_idx:
-                    x[idx], x[swap_idx] = x[swap_idx], x[idx]
                 piv_tail += 1
                 idx += 1
                 continue
 
             if current < pivot_val:
-                swap_idx = piv_tail + 1
-                if idx != swap_idx:
-                    x[idx], x[swap_idx] = x[swap_idx], x[idx]
                 x[piv_head], x[swap_idx] = x[swap_idx], x[piv_head]
                 piv_head += 1
                 piv_tail += 1
-            idx += 1
+                idx += 1
+                continue
 
         _helper(x, left, piv_head-1)
         _helper(x, piv_tail+1, right)
