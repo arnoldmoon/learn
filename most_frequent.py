@@ -70,6 +70,7 @@ class BinaryInsertionSort:
         """
         traverse is in-order so lowest priority will be returned first.
         """
+        result = []
         def _helper(node):
             l = node.l
             if node.l is not None:
@@ -81,7 +82,7 @@ class BinaryInsertionSort:
 
         if self.head is None:
             return None
-        result = []
+
         _helper(self.head)
         return result
 
