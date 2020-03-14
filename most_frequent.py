@@ -44,7 +44,7 @@ def bubble_sort_by_val(d):
             a, b = d[x], d[y]
             if a < b:
                 done = False
-                result[i+1], result[i] = y, x
+                result[i+1], result[i] = x, y
             i += 1
 
         if done:
