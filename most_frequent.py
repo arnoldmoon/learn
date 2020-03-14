@@ -28,30 +28,6 @@ def most_frequent(l):
 
     return result
 
-def bubble_sort_by_val(d):
-    if d is None:
-        return None
-
-    result = []
-    result.extend(d.keys())
-    d_len = len(result)
-
-    while True:
-        done = True
-        i = 0
-        while i < d_len - 1:
-            x, y = result[i], result[i+1]
-            a, b = d[x], d[y]
-            if a < b:
-                done = False
-                result[i+1], result[i] = x, y
-            i += 1
-
-        if done:
-            break
-
-    return result
-
 def most_frequent_n(l, n):
     """
     from input list, returns n most frequent items as a sorted list.
@@ -69,9 +45,9 @@ def most_frequent_n(l, n):
     for i in l:
         cur_cnt = elem_cnt.get(i)
         elem_cnt[i] = cnt =\
-            1 if cur_cnt is None else cur_cnt + 1
+            -1 if cur_cnt is None else cur_cnt - 1
 
-    result = bubble_sort_by_val(elem_cnt)
+    result = sorted(elem_cnt, key=lambda x:elem_cnt[x])
     return result[:n]
 
 
