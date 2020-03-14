@@ -28,25 +28,28 @@ def most_frequent(l):
 
     return result
 
-def bubble_sort_reversed(l):
-    l_len = 0 if l is None else len(l)
-    if l_len < 2:
-        return l
+def bubble_sort_by_val(d):
+    if d is None:
+        return None
+
+    result = []
+    result.extend(d.keys())
+    d_len = len(result)
 
     while True:
         done = True
         i = 0
-        while i < l_len - 1:
-            a, b = l[i], l[i+1]
+        while i < d_len - 1:
+            a, b = d[result[i]], d[result[i+1]]
             if a < b:
                 done = False
-                l[i+1], l[i] = a, b
+                result[i+1], result[i] = result[i], result[i+1]
             i += 1
 
         if done:
             break
 
-    return l
+    return result
 
 def most_frequent_n(l, n):
     """
@@ -61,34 +64,13 @@ def most_frequent_n(l, n):
         return l
 
     elem_cnt = {}
-    cnt_elems = {}
 
     for i in l:
         cur_cnt = elem_cnt.get(i)
         elem_cnt[i] = cnt =\
             1 if cur_cnt is None else cur_cnt + 1
 
-        cur_set = cnt_elems.get(cnt-1)
-        if cur_set is not None:
-            if len(cur_set) == 1:
-                cnt_elems.pop(cnt-1)
-            else:
-                cur_set.remove(i)
-
-        promote_set = cnt_elems.get(cnt)
-        if promote_set is not None:
-            promote_set.add(i)
-        else:
-            cnt_elems[cnt] = set([i])
-
-    result = []
-    cnts = []
-    cnts.extend(cnt_elems.keys())
-    bubble_sort_reversed(cnts)
-    for cnt in cnts:
-        result.extend(cnt_elems[cnt])
-        if len(result) >= n:
-            break
+    result = bubble_sort_by_val(elem_cnt)
     return result[:n]
 
 
