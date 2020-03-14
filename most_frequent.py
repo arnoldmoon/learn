@@ -54,7 +54,7 @@ def bubble_sort_by_val(d):
 
 def most_frequent_n(l, n):
     """
-    from input list, returns n most frequent items as a non-sorted list.
+    from input list, returns n most frequent items as a sorted list.
     if input list is None, return value will be None,
     if input list is empty, return value will be an empty list.
     """
