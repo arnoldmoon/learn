@@ -28,7 +28,71 @@ def most_frequent(l):
 
     return result
 
+def bubble_sort_reversed(l):
+    l_len = 0 if l is None else len(l)
+    if l_len < 2:
+        return l
 
+    while True:
+        done = True
+        i = 0
+        while i < l_len - 1:
+            a, b = l[i], l[i+1]
+            if a < b:
+                done = False
+                l[i+1], l[i] = a, b
+            i += 1
+
+        if done:
+            break
+
+    return l
+
+def most_frequent_n(l, n):
+    """
+    from input list, returns n most frequent items as a non-sorted list.
+    if input list is None, return value will be None,
+    if input list is empty, return value will be an empty list.
+    """
+    if l is None:
+        return None
+    input_len = len(l)
+    if input_len < 2:
+        return l
+
+    elem_cnt = {}
+    cnt_elems = {}
+
+    for i in l:
+        cur_cnt = elem_cnt.get(i)
+        elem_cnt[i] = cnt =\
+            1 if cur_cnt is None else cur_cnt + 1
+
+        cur_set = cnt_elems.get(cnt-1)
+        if cur_set is not None:
+            if len(cur_set) == 1:
+                cnt_elems.pop(cnt-1)
+            else:
+                cur_set.remove(i)
+
+        promote_set = cnt_elems.get(cnt)
+        if promote_set is not None:
+            promote_set.add(i)
+        else:
+            cnt_elems[cnt] = set([i])
+
+    result = []
+    cnts = []
+    cnts.extend(cnt_elems.keys())
+    bubble_sort_reversed(cnts)
+    for cnt in cnts:
+        result.extend(cnt_elems[cnt])
+        if len(result) >= n:
+            break
+    return result[:n]
+
+
+#additional practice
 class Node:
     """
     modified binary insertion node class for most frequent function.
@@ -85,34 +149,6 @@ class BinaryInsertionSort:
         return result
 
 
-def most_frequent_n(l, n):
-    """
-    from input list, returns n most frequent items as a non-sorted list.
-    if input list is None, return value will be None,
-    if input list is empty, return value will be an empty list.
-    """
-    if l is None:
-        return None
-    input_len = len(l)
-    if input_len < 2:
-        return l
-
-    l_dict = {}
-
-    for i in l:
-        current = l_dict.get(i)
-        l_dict[i] = count = 1 if current is None else current + 1
-
-    result = BinaryInsertionSort()
-    for x, p in l_dict.items():
-        # using negative p instead, so to avoid reversed in-order traverse
-        # or reversing the result afterwards.
-        result.append(x, -p)
-
-    return result.traverse()[:n]
-
-
-#additional practice
 def bubble_sort(l):
     l_len = 0 if l is None else len(l)
     if l_len < 2:
