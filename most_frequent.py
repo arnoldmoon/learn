@@ -40,10 +40,11 @@ def bubble_sort_by_val(d):
         done = True
         i = 0
         while i < d_len - 1:
-            a, b = d[result[i]], d[result[i+1]]
+            x, y = result[i], result[i+1]
+            a, b = d[x], d[y]
             if a < b:
                 done = False
-                result[i+1], result[i] = result[i], result[i+1]
+                result[i+1], result[i] = y, x
             i += 1
 
         if done:
