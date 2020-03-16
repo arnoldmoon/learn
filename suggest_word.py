@@ -24,11 +24,11 @@ class Node:
             w_len = len(w)
         if idx == w_len - 1:
             return self
-        next_c = w[idx+1]
-        next_n = self.c.get(next_c)
-        if next_n is None:
+        n_char = w[idx+1]
+        n_node = self.c.get(n_char)
+        if n_node is None:
             return
-        return next_n.find_node(w, idx=idx+1, w_len=w_len)
+        return n_node.find_node(w, idx=idx+1, w_len=w_len)
 
 
 class DocTree:
