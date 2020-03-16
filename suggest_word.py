@@ -19,14 +19,16 @@ class Node:
             n_node = self.c[n_char] = Node(data=n_char, word_cnt=0, c={})
         n_node.add_word(w, idx=idx+1, w_len=w_len)
 
-    def find_node(self, w, idx=-1):
-        if idx == len(w) - 1:
+    def find_node(self, w, idx=-1, w_len=None):
+        if w_len == None:
+            w_len = len(w)
+        if idx == w_len - 1:
             return self
         next_c = w[idx+1]
         next_n = self.c.get(next_c)
         if next_n is None:
             return
-        return next_n.find_node(w, idx=idx+1)
+        return next_n.find_node(w, idx=idx+1, w_len=w_len)
 
 
 class DocTree:
@@ -43,9 +45,9 @@ class DocTree:
             if n.word_cnt > 0:
                 wset = res.get(n.word_cnt)
                 if wset is not None:
-                    wset.add(word)
+                    wset.append(word)
                 else:
-                    wset = set([word])
+                    wset = [word]
                     res[n.word_cnt] = wset
 
             for cn in n.c.values():
