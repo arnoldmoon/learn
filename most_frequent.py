@@ -17,7 +17,8 @@ def most_frequent(l):
 
     for i in l:
         current = l_dict.get(i)
-        l_dict[i] = count = 1 if current is None else current + 1
+        l_dict[i] = count = 1 if current is None\
+                            else current + 1
 
         if count > max_freq:
             max_freq = count
@@ -44,8 +45,8 @@ def most_frequent_n(l, n):
 
     for i in l:
         cur_cnt = elem_cnt.get(i)
-        elem_cnt[i] = cnt =\
-            -1 if cur_cnt is None else cur_cnt - 1
+        elem_cnt[i] = -1 if cur_cnt is None\
+                      else cur_cnt - 1
 
     result = sorted(elem_cnt, key=lambda x:elem_cnt[x])
     return result[:n]
