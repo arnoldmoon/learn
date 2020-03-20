@@ -21,6 +21,7 @@ print(sorted(res, key=lambda X:X.split('_')[2]))
 
 print()
 
+#non-sorting approach
 new_res = []
 len_c = len(c)
 for i in range(len(c)):
