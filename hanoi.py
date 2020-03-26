@@ -32,12 +32,10 @@ def hanoi_tower(n):
     print('\n')
 
 
-hanoi_tower(5)
-
-
 def memo(f):
     """memoize and return."""
     cache = {}
+
     def wrap(n):
         res = cache.get(n)
         if res is None:
@@ -49,17 +47,17 @@ def memo(f):
 @memo
 def hanoi_moon(n):
     """
-    construct hanoi tower sequence and 
-    return as a nested list.
-    
+    construct hanoi tower sequence and return as a nested list.
+
     argument:
     n: initial number of discs at 'from' pole.
-    
-    @return: discs placed on a pole for each step x three poles ie from, aux and to.
+
+    @return: discs on a pole for each step x each poles.
              [[[], []...[]],
-              [[], []...[]], 
+              [[], []...[]],
               [[], []...[]]]
     """
+
     res = [[[]], [[]], [[]]]
     if n <= 0:
         return res
@@ -67,7 +65,7 @@ def hanoi_moon(n):
     res[0] = [[n] + i for i in last_step[0]] + last_step[1]
     res[1] = last_step[2] + last_step[0]
     res[2] = last_step[1] + [[n] + i for i in last_step[2]]
-    
+
     return res
 
 
@@ -82,4 +80,49 @@ def show_poles(tower):
     print('\n')
 
 
-show_poles(hanoi_moon(5))
+show_poles(hanoi_moon(1))
+show_poles(hanoi_moon(2))
+show_poles(hanoi_moon(2))
+show_poles(hanoi_moon(2))
+
+
+@memo
+def hanoi_moon_bit(n):
+    """
+    construct hanoi tower sequence and return as a list.
+
+    argument:
+    n: initial number of discs at 'from' pole.
+
+    @return: int with each bit represents if the coresponding disc is
+             present of not.
+             [[int, int...int],
+              [int, int...int],
+              [int, int...int]]
+    """
+
+    res = [[0], [0], [0]]
+    if n <= 0:
+        return res
+    last_step = hanoi_moon_bit(n-1)
+    res[0] = [1 << n-1 | i for i in last_step[0]] + last_step[1]
+    res[1] = last_step[2] + last_step[0]
+    res[2] = last_step[1] + [1 << n-1 | i for i in last_step[2]]
+
+    return res
+
+
+def show_poles_bin(tower, n):
+    """format binary from hanoi_moon_bit and print"""
+    def format_bin(b):
+        return format(b, 'b').zfill(n)
+
+    for A, B, C in zip(*tower):
+        print(format_bin(A), format_bin(B), format_bin(C))
+    print('\n')
+
+
+show_poles_bin(hanoi_moon_bit(1), 1)
+show_poles_bin(hanoi_moon_bit(2), 2)
+show_poles_bin(hanoi_moon_bit(3), 3)
+show_poles_bin(hanoi_moon_bit(4), 4)
