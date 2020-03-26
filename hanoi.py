@@ -3,7 +3,8 @@ hanio tower
 """
 
 
-def hanoi_tower(n=4):
+# hanoi tower solution from internet search
+def hanoi_tower(n):
 
     def move_tower(height, from_pole, to_pole, with_pole):
         if height >= 1:
@@ -51,9 +52,10 @@ def hanoi_moon(n):
     if n <= 0:
         return res
     last_step = hanoi_moon(n-1)
+    res[0] = [[n] + i for i in last_step[0]] + last_step[1]
     res[1] = last_step[2] + last_step[0]
     res[2] = last_step[1] + [[n] + i for i in last_step[2]]
-    res[0] = [[n] + i for i in last_step[0]] + last_step[1]
+    
     return res
 
 
