@@ -80,8 +80,8 @@ def show_poles(tower):
 
 show_poles(hanoi_moon(1))
 show_poles(hanoi_moon(2))
-show_poles(hanoi_moon(2))
-show_poles(hanoi_moon(2))
+show_poles(hanoi_moon(3))
+show_poles(hanoi_moon(4))
 
 
 @memo
