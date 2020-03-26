@@ -1,10 +1,8 @@
-"""
-hanio tower
-"""
+"""Hanio tower."""
 
 
 def hanoi_tower(n):
-    """grabbed from online as a validation tool."""
+    """Grabbed from online as a validation tool."""
     def move_tower(height, from_pole, to_pole, with_pole):
         if height >= 1:
             move_tower(height-1, from_pole, with_pole, to_pole)
@@ -17,23 +15,23 @@ def hanoi_tower(n):
 
     def show_poles():
         line = ""
-        line += '{:<{}s}'.format(str(A), str_len)
-        line += '{:<{}s}'.format(str(B), str_len)
-        line += '{:<{}s}'.format(str(C), str_len)
+        line += '{:<{}s}'.format(str(a), str_len)
+        line += '{:<{}s}'.format(str(b), str_len)
+        line += '{:<{}s}'.format(str(c), str_len)
         print(line)
 
-    A = list(range(n, 0, -1))
-    B = []
-    C = []
-    str_len = len(str(A))
+    a = list(range(n, 0, -1))
+    b = []
+    c = []
+    str_len = len(str(a))
 
     show_poles()
-    move_tower(n, A, C, B)
+    move_tower(n, a, c, b)
     print('\n')
 
 
 def memo(f):
-    """memoize and return."""
+    """Memoize and return."""
     cache = {}
 
     def wrap(n):
@@ -47,7 +45,7 @@ def memo(f):
 @memo
 def hanoi_moon(n):
     """
-    construct hanoi tower sequence and return as a nested list.
+    Construct hanoi tower sequence and return as a nested list.
 
     argument:
     n: initial number of discs at 'from' pole.
@@ -57,7 +55,6 @@ def hanoi_moon(n):
               [[], []...[]],
               [[], []...[]]]
     """
-
     res = [[[]], [[]], [[]]]
     if n <= 0:
         return res
@@ -70,12 +67,13 @@ def hanoi_moon(n):
 
 
 def show_poles(tower):
+    """Format hanoi_moon and print."""
     str_len = len(str(tower[0][0]))
-    for A, B, C in zip(*tower):
+    for a, b, c in zip(*tower):
         line = ""
-        line += '{:<{}s}'.format(str(A), str_len)
-        line += '{:<{}s}'.format(str(B), str_len)
-        line += '{:<{}s}'.format(str(C), str_len)
+        line += '{:<{}s}'.format(str(a), str_len)
+        line += '{:<{}s}'.format(str(b), str_len)
+        line += '{:<{}s}'.format(str(c), str_len)
         print(line)
     print('\n')
 
@@ -89,7 +87,7 @@ show_poles(hanoi_moon(2))
 @memo
 def hanoi_moon_bit(n):
     """
-    construct hanoi tower sequence and return as a list.
+    Construct hanoi tower sequence and return as a list.
 
     argument:
     n: initial number of discs at 'from' pole.
@@ -100,7 +98,6 @@ def hanoi_moon_bit(n):
               [int, int...int],
               [int, int...int]]
     """
-
     res = [[0], [0], [0]]
     if n <= 0:
         return res
@@ -113,12 +110,12 @@ def hanoi_moon_bit(n):
 
 
 def show_poles_bin(tower, n):
-    """format binary from hanoi_moon_bit and print"""
+    """Format binary from hanoi_moon_bit and print."""
     def format_bin(b):
         return format(b, 'b').zfill(n)
 
-    for A, B, C in zip(*tower):
-        print(format_bin(A), format_bin(B), format_bin(C))
+    for a, b, c in zip(*tower):
+        print(format_bin(a), format_bin(b), format_bin(c))
     print('\n')
 
 
