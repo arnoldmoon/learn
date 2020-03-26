@@ -3,9 +3,8 @@ hanio tower
 """
 
 
-# hanoi tower solution from internet search
 def hanoi_tower(n):
-
+    """grabbed from online as a validation tool."""
     def move_tower(height, from_pole, to_pole, with_pole):
         if height >= 1:
             move_tower(height-1, from_pole, with_pole, to_pole)
@@ -37,6 +36,7 @@ hanoi_tower(5)
 
 
 def memo(f):
+    """memoize and return."""
     cache = {}
     def wrap(n):
         res = cache.get(n)
@@ -48,6 +48,18 @@ def memo(f):
 
 @memo
 def hanoi_moon(n):
+    """
+    construct hanoi tower sequence and 
+    return as a nested list.
+    
+    argument:
+    n: initial number of discs at 'from' pole.
+    
+    @return: discs placed on a pole for each step x three poles ie from, aux and to.
+             [[[], []...[]],
+              [[], []...[]], 
+              [[], []...[]]]
+    """
     res = [[[]], [[]], [[]]]
     if n <= 0:
         return res
