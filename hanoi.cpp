@@ -8,59 +8,54 @@ using namespace std;
 
 void
 hanoi(const int& n,
-        vector< bitset<MAX_BIT>* >* tower_a,
-        vector< bitset<MAX_BIT>* >* tower_b,
-        vector< bitset<MAX_BIT>* >* tower_c){
+      vector< vector< int >* >* tower)
+{
     if (n <= 0){
-        tower_a->clear();
-        tower_b->clear();
-        tower_c->clear();
-        tower_a->push_back(new bitset<MAX_BIT>(0));
-        tower_b->push_back(new bitset<MAX_BIT>(0));
-        tower_c->push_back(new bitset<MAX_BIT>(0));
+        tower->at(0)->clear();
+        tower->at(1)->clear();
+        tower->at(2)->clear();
+        tower->at(0)->push_back(0);
+        tower->at(1)->push_back(0);
+        tower->at(2)->push_back(0);
         return;
     }
-    hanoi(n-1, tower_a, tower_b, tower_c);
-    auto new_tower_a = new vector< bitset<MAX_BIT>* >();   
-    auto new_tower_b = new vector< bitset<MAX_BIT>* >();   
-    auto new_tower_c = new vector< bitset<MAX_BIT>* >();   
-    for(auto i:*tower_a){
-        auto new_i = new bitset<MAX_BIT>(*i);
-        *new_i |= 1 << (n - 1); 
-        new_tower_a->push_back(new_i);
-    }
-    for(auto i:*tower_c){
-        new_tower_b->push_back(new bitset<MAX_BIT>(*i));
-    }
-    for(auto i:*tower_b){
-        new_tower_c->push_back(new bitset<MAX_BIT>(*i));
-    }
     
-    for(auto i:*tower_b){
-        new_tower_a->push_back(new bitset<MAX_BIT>(*i));
-    }
-    for(auto i:*tower_a){
-        new_tower_b->push_back(new bitset<MAX_BIT>(*i));
-    }
-    for(auto i:*tower_c){
-        auto new_i = new bitset<MAX_BIT>(*i);
-        *new_i |= 1 << (n - 1); 
-        new_tower_c->push_back(new_i);
+    hanoi(n-1, tower);
+    int prev_seq_size = tower->at(0)->size();
+
+    // for now ignore the largest disc,
+    // use n-1 sequence and move whole tower to middle pole.
+    swap(tower->at(1), tower->at(2));
+
+    // again move whole tower to target pole.
+    for(int i=0; i<prev_seq_size; ++i){
+        tower->at(0)->push_back(tower->at(2)->at(i));
+        tower->at(1)->push_back(tower->at(0)->at(i));
+        tower->at(2)->push_back(tower->at(1)->at(i));
     }
 
-    for(size_t i=0; i<new_tower_a->size();++i){
-        std::cout << *(new_tower_a->at(i)) << "\t"; 
-        std::cout << *(new_tower_b->at(i)) << "\t"; 
-        std::cout << *(new_tower_c->at(i)) << "\t"; 
+    // sneak in the largest disc under n-1 tower and we are done.
+    for(int i=0; i<prev_seq_size; ++i){
+        (tower->at(0)->at(i)) |= (1 << (n - 1));
+        (tower->at(2)->at(i+prev_seq_size)) |= (1 << (n - 1));
+    }
+    
+    for(size_t i=0; i<tower->at(0)->size(); ++i){
+        std::cout << bitset<MAX_BIT>(tower->at(0)->at(i)) << "\t"; 
+        std::cout << bitset<MAX_BIT>(tower->at(1)->at(i)) << "\t"; 
+        std::cout << bitset<MAX_BIT>(tower->at(2)->at(i)) << "\t"; 
+
         std::cout << std::endl;
     }
     std::cout << std::endl;
+    return;
 }
 
 int main(){
-    vector< bitset<MAX_BIT>* > tower_a(0);
-    vector< bitset<MAX_BIT>* > tower_b(0);
-    vector< bitset<MAX_BIT>* > tower_c(0);
-    hanoi(2, &tower_a, &tower_b, &tower_c);
+    vector< int > tower_a(0);
+    vector< int > tower_b(0);
+    vector< int > tower_c(0);
+    vector< vector<int>* > tower{&tower_a, &tower_b, &tower_c};
+    hanoi(3, &tower);
     return 0;
 }
