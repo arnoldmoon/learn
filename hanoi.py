@@ -99,13 +99,22 @@ def hanoi_moon_bit(n):
               [int, int...int]]
     """
     res = [[0], [0], [0]]
-    if n <= 0:
-        return res
-    last_step = hanoi_moon_bit(n-1)
-    res[0] = [1 << n-1 | i for i in last_step[0]] + last_step[1]
-    res[1] = last_step[2] + last_step[0]
-    res[2] = last_step[1] + [1 << n-1 | i for i in last_step[2]]
-
+    solution_n = 0
+    while solution_n < n:
+        # ignore larges disc and move whole tower to middle pole
+        res[1], res[2] = res[2], res[1]
+        last_seq_len = len(res[0])
+        # move whole tower from middle pole to target pole
+        # if largest disc were present under source pole for the first half
+        # the sequence then under target pole for the later half,
+        # solution is complete.
+        for i in range(last_seq_len):
+            res[0].append(res[2][i])
+            res[1].append(res[0][i])
+            res[2].append(res[1][i])
+            res[0][i] |= 1 << solution_n
+            res[2][i+last_seq_len] |= 1 << solution_n
+        solution_n += 1
     return res
 
 
