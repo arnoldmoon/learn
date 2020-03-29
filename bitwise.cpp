@@ -12,12 +12,14 @@ using std::bitset;
                       : numeric_limits<t>::digits
 
 template <class t>
-bitset<bit_length(t)> complement(t input) {
+bitset<bit_length(t)>
+complement(t input) {
     return ~bitset<bit_length(t)>(input);
 }
 
 template <class t>
-int parity(t input) {
+int
+parity(t input) {
     int i = bit_length(t);
     while (i > 1) {
         i *= 0.5;
@@ -27,18 +29,37 @@ int parity(t input) {
 }
 
 
-bool is_power_of_two(int x) {
+bool
+is_power_of_two(int x) {
     return (x & (x - 1)) == 0;
 }
 
 
-int64_t propagate_right_most_on_to_lesser(int64_t x) {
+int64_t
+propagate_right_most_on_to_lesser(int64_t x) {
     return x | (x - 1);
 }
 
 
-int mod_of_power_of_two(int x, int y) {
+int
+mod_of_power_of_two(int x, int y) {
     return x  & (y - 1);
+}
+
+
+uint64_t
+get_quotient(uint64_t x, uint64_t y) {
+    uint64_t q = 0;
+    int k = bit_length(uint64_t);
+    while (x > y) {
+        while (x < (y << k)) {
+            --k;
+        }
+        x -= y << k;
+        q += 1 << k;
+    }
+    // cout << "%= " << x << endl;
+    return q;
 }
 
 
@@ -65,5 +86,8 @@ int main() {
     cout << 70 << " % " << 64 << " = " << (70 % 64) << endl;
     cout << 77 << " % " << 16 << " = " << mod_of_power_of_two(77, 16) << endl;
     cout << 77 << " % " << 16 << " = " << (77 % 16) << endl;
+
+    cout << 10 << " / " << 3 << " = " << get_quotient(10, 3) << endl;
+    cout << 200 << " / " << 3 << " = " << get_quotient(200, 3) << endl;
     return 0;
 }
