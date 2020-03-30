@@ -1,6 +1,7 @@
 #include <iostream>
 #include <bitset>
 #include <limits>
+#include <math.h>
 
 using std::cout;
 using std::endl;
@@ -63,6 +64,23 @@ get_quotient(uint64_t x, uint64_t y) {
 }
 
 
+uint64_t
+x_square_y(int x, int y) {
+    // TODO: implement 'when y is negative'.
+    int power = 1;
+    int result = x;
+    while (y > (power << 1)) {
+        power <<= 1;
+        result *= result;
+    }
+    while (y > power) {
+        result *= x;
+        ++power;
+    }
+    return result;
+}
+
+
 int main() {
     int64_t i;
     i = 5;
@@ -87,7 +105,14 @@ int main() {
     cout << 77 << " % " << 16 << " = " << mod_of_power_of_two(77, 16) << endl;
     cout << 77 << " % " << 16 << " = " << (77 % 16) << endl;
 
+    cout << endl;
     cout << 10 << " / " << 3 << " = " << get_quotient(10, 3) << endl;
     cout << 200 << " / " << 3 << " = " << get_quotient(200, 3) << endl;
+
+    cout << endl;
+    cout << 2 << "^" << 5 << " = " << x_square_y(2, 5) << endl;
+    cout << 2 << "^" << 5 << " = " << std::pow(2, 5) << endl;
+    cout << 2 << "^" << 13 << " = " << x_square_y(2, 13) << endl;
+    cout << 2 << "^" << 13 << " = " << std::pow(2, 13) << endl;
     return 0;
 }
