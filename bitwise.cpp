@@ -67,17 +67,16 @@ get_quotient(uint64_t x, uint64_t y) {
 uint64_t
 x_square_y(int x, int y) {
     // TODO: implement 'when y is negative'.
-    int power = 1;
-    int result = x;
-    while (y > (power << 1)) {
-        power <<= 1;
-        result *= result;
+    int res = 1;
+    int current_bit_val = x;
+    while (y > 0) {
+        if (y & 1) {
+            res *= current_bit_val;
+        }
+        y >>= 1;
+        current_bit_val *= current_bit_val;
     }
-    while (y > power) {
-        result *= x;
-        ++power;
-    }
-    return result;
+    return res;
 }
 
 
