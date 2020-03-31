@@ -47,9 +47,9 @@ hanoi(const int& n,
 }
 
 int main() {
-    vector< int > tower_a(0);
-    vector< int > tower_b(0);
-    vector< int > tower_c(0);
+    vector< int > tower_a{};
+    vector< int > tower_b{};
+    vector< int > tower_c{};
     vector< vector<int>* > tower{&tower_a, &tower_b, &tower_c};
     hanoi(3, &tower);
     return 0;
