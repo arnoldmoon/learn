@@ -5,37 +5,37 @@ def sparse_mult(A, B):
     o_cols = b_cols = len(B[0])
     res = [[0 for c in range(o_cols)] for r in range(o_rows)]
 
-    A_set_bits = []
-    B_set_bits = []
+    A_non_zero = []
+    B_non_zero = []
 
     for r in range(a_rows):
-        set_bits = 0
+        non_zero = 0
         for c in range(a_cols):
             if A[r][c] != 0:
-                set_bits += 1 << c
-        A_set_bits.append(set_bits)
+                non_zero += 1 << c
+        A_non_zero.append(non_zero)
 
     for c in range(b_cols):
-        set_bits = 0
+        non_zero = 0
         for r in range(b_rows):
             if B[r][c] != 0:
-                set_bits += 1 << r
-        B_set_bits.append(set_bits)
+                non_zero += 1 << r
+        B_non_zero.append(non_zero)
 
     for r in range(o_rows):
-        a_set_bits = A_set_bits[r]
-        if a_set_bits == 0:
+        row_non_zero = A_non_zero[r]
+        if row_non_zero == 0:
             continue
         for c in range(o_cols):
-            set_bits = a_set_bits & B_set_bits[c]
-            if set_bits == 0:
+            non_zero = row_non_zero & B_non_zero[c]
+            if non_zero == 0:
                 continue
             idx = 0
             dot = 0
-            while set_bits:
-                if set_bits & 1:
+            while non_zero:
+                if non_zero & 1:
                     dot += A[r][idx] * B[idx][c]
-                set_bits >>= 1
+                non_zero >>= 1
                 idx += 1
             res[r][c] = dot
     return res
