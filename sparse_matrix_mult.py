@@ -23,8 +23,11 @@ def sparse_mult(A, B):
         B_set_bits.append(set_bits)
 
     for r in range(o_rows):
+        a_set_bits = A_set_bits[r]
+        if a_set_bits == 0:
+            continue
         for c in range(o_cols):
-            set_bits = A_set_bits[r] & B_set_bits[c]
+            set_bits = a_set_bits & B_set_bits[c]
             if set_bits == 0:
                 continue
             idx = 0
