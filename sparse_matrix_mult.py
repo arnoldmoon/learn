@@ -1,4 +1,4 @@
-def smm(A, B):
+def sparse_mult(A, B):
     o_rows = a_rows = len(A)
     a_cols = len(A[0])
     b_rows = len(B)
@@ -55,4 +55,4 @@ B = [[0, 1, 0],
      [2, 1, 0],
      [0, 0, 0]]
 
-show_m([A, B, smm(A, B)])
+show_m([A, B, sparse_mult(A, B)])
