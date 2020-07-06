@@ -1,4 +1,4 @@
-ARG BASE=jupyter/scipy-notebook
+ARG BASE=jupyter/minimal-notebook
 ARG TAG=latest
 
 FROM ${BASE}:${TAG}
